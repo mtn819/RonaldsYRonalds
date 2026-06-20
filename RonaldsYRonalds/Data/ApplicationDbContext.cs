@@ -5,5 +5,7 @@ namespace RonaldsYRonalds.Data
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
     {
+
+        public DbSet<Models.TicketModel> Movie { get; set; } = default!;
     }
 }
