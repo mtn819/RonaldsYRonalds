@@ -45,4 +45,24 @@ app.MapControllerRoute(
 app.MapRazorPages()
    .WithStaticAssets();
 
+/*
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    // create role
+    if (!await roleManager.RoleExistsAsync("Admin"))
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+    // pick user
+    var user = await userManager.FindByEmailAsync("example@email.com");
+
+    if (user != null)
+    {
+        await userManager.AddToRoleAsync(user, "Admin");
+    }
+}
+*/
+
 app.Run();
