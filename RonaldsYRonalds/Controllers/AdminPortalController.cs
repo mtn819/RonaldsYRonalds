@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace RonaldsYRonalds.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminPortalController : Controller
     {
-        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();
