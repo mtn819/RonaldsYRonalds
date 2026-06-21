@@ -1,11 +1,14 @@
 ﻿@model List<RonaldsYRonalds.Models.TicketModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-
+<p>Signed In: @User.Identity?.Name</p>
 <form asp-controller="AdminPortal" asp-action="Index">
     <p>
         <label>VIN: <input type="text" name="SearchVin" placeholder="Search VIN" /></label>

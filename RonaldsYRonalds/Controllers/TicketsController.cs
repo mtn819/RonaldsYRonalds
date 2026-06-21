@@ -6,7 +6,6 @@ using RonaldsYRonalds.Data;
 using RonaldsYRonalds.Models;
 
 [Authorize(Roles = "Admin")]
-
 public class TicketsController : Controller
 {
     private readonly ApplicationDbContext _context;
