@@ -12,16 +12,20 @@ namespace RonaldsYRonalds.Controllers
         private readonly ApplicationDbContext _context = context;
 
         // GET: TICKETS
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String searchVin)
         {
-            var userName = User.Identity?.Name;
-
             var query = from ticket in _context.Tickets
                         select ticket;
 
-            var userTickets = query.OrderByDescending(ticket => ticket.CreatedAt);
+            
+            if (!String.IsNullOrEmpty(searchVin))
+            {
+                query = query.Where(ticket => ticket.Vin == searchVin);
+            }
 
-            return View(await userTickets.ToListAsync());
+            query = query.OrderByDescending(ticket => ticket.CreatedAt);
+
+            return View(await query.ToListAsync());
         }
 
         // GET: TICKETS/Process/5

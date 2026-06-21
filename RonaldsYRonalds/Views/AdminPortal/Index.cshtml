@@ -6,6 +6,13 @@
 @{
 }
 
+<form asp-controller="AdminPortal" asp-action="Index">
+    <p>
+        <label>VIN: <input type="text" name="SearchVin" placeholder="Search VIN" /></label>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -53,7 +60,10 @@
                     @Html.DisplayFor(model => item.CreatedAt)
                 </td>
                 <td>
-                    <a asp-action="Process" asp-route-id="@item.Id">Process</a>
+                    @if (item.Status == TicketStatus.Submitted)
+                    {
+                        <a asp-action="Process" asp-route-id="@item.Id">Process</a>
+                    }
                 </td>
             </tr>
         }
