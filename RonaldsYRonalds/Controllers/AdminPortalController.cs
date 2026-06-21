@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RonaldsYRonalds.Data;
+using RonaldsYRonalds.Models;
 
 namespace RonaldsYRonalds.Controllers
 {
@@ -21,6 +22,52 @@ namespace RonaldsYRonalds.Controllers
             var userTickets = query.OrderByDescending(ticket => ticket.CreatedAt);
 
             return View(await userTickets.ToListAsync());
+        }
+
+        // GET: TICKETS/Process/5
+        public async Task<IActionResult> Process(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ticketmodel = await _context.Tickets.FindAsync(id);
+            if (ticketmodel == null)
+            {
+                return NotFound();
+            }
+            return View(ticketmodel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Fulfill(int id)
+        {
+            var ticket = await _context.Tickets.FindAsync(id);
+
+            if (ticket == null)
+                return NotFound();
+
+            ticket.Status = TicketStatus.Fulfilled;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var ticket = await _context.Tickets.FindAsync(id);
+
+            if (ticket == null)
+                return NotFound();
+
+            ticket.Status = TicketStatus.Rejected;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

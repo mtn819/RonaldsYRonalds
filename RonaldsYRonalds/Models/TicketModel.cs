@@ -9,7 +9,7 @@ namespace RonaldsYRonalds.Models
         public string UserName { get; set; }
         public TicketStatus Status { get; set; } = TicketStatus.Submitted;
         //[StringLength(17, MinimumLength = 17)]
-        [Display(Name="Vehicle Identification Number (VIN)")]
+        [Display(Name="VIN")]
         public string Vin { get; set; }
         [Display(Name="Claim")]
         public string IncidentDescription { get; set; }
