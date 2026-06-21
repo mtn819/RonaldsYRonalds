@@ -4,7 +4,6 @@
     {
         Submitted,
         Rejected,
-        Processing,
         Fulfilled
     }
 }
