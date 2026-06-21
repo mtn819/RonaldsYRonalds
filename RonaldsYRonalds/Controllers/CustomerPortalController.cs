@@ -39,7 +39,10 @@ namespace RonaldsYRonalds.Controllers
         public async Task<IActionResult> Create([Bind("Id,Status,Vin,IncidentDescription")] TicketModel ticketmodel)
         {
             ModelState.Remove("UserName");
+            ModelState.Remove("Status");
+
             ticketmodel.UserName = User.Identity!.Name;
+            ticketmodel.Status = TicketStatus.Submitted;
 
             if (ModelState.IsValid)
             {
