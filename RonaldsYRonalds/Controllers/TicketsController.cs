@@ -57,7 +57,7 @@ public class TicketsController : Controller
             return RedirectToAction(nameof(Index));
         }
         return View(ticketmodel);
-    }
+    } 
 
     // GET: TICKETS/Edit/5
     public async Task<IActionResult> Edit(int? id)

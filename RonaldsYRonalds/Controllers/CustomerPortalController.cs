@@ -12,6 +12,7 @@ namespace RonaldsYRonalds.Controllers
     {
         private readonly ApplicationDbContext _context = context;
 
+        // GET: TICKETS
         public async Task<IActionResult> Index()
         {
             var userName = User.Identity?.Name;
@@ -23,5 +24,32 @@ namespace RonaldsYRonalds.Controllers
 
             return View(await userTickets.ToListAsync());
         }
+
+        // GET: TICKETS/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: TICKETS/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Status,Vin,IncidentDescription")] TicketModel ticketmodel)
+        {
+            ModelState.Remove("UserName");
+            ticketmodel.UserName = User.Identity!.Name;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(ticketmodel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(ticketmodel);
+        }
+
     }
 }
