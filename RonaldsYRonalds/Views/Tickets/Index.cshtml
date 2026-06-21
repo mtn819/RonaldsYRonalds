@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IncidentDescription)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -39,8 +42,11 @@
             <td>
                 @Html.DisplayFor(model => item.Vin)
             </td>
-            <td>
+            <td class ="mw-50ch text-wrap text-break">
                 @Html.DisplayFor(model => item.IncidentDescription)
+            </td>
+            <td class="mw-50ch text-wrap text-break">
+                @Html.DisplayFor(model => item.CreatedAt)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

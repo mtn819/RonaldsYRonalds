@@ -1,8 +1,11 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RonaldsYRonalds.Models;
 using RonaldsYRonalds.Data;
+using RonaldsYRonalds.Models;
+
+[Authorize(Roles = "Admin")]
 
 public class TicketsController : Controller
 {

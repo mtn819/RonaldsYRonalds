@@ -1,3 +1,14 @@
+/** v my own utility classes */
+.mw-25ch
+{
+    max-width: 25ch;
+}
+.mw-50ch
+{
+    max-width: 50ch;
+}
+/** ^ my own utility classes */
+
 html {
   font-size: 14px;
 }

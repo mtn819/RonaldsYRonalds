@@ -11,7 +11,9 @@ namespace RonaldsYRonalds.Models
         //[StringLength(17, MinimumLength = 17)]
         [Display(Name="Vehicle Identification Number (VIN)")]
         public string Vin { get; set; }
+        [Display(Name="Claim")]
         public string IncidentDescription { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
+    
