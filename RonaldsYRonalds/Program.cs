@@ -65,4 +65,11 @@ using (var scope = app.Services.CreateScope())
 }
 */
 
+// bootstrap the database
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
 app.Run();

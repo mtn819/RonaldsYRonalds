@@ -9,6 +9,7 @@ namespace RonaldsYRonalds.Controllers
         private readonly UserManager<IdentityUser> _userManager = userManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
+        // [Authorize(Roles = "Admin")] // note: this func is for bootstrapping admin role; would be protected or removed in prod, but im keeping this app simple
         [HttpGet]
         public async Task<IActionResult> MakeAdmin(string username)
         {
