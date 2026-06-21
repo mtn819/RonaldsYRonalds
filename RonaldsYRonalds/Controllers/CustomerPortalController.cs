@@ -41,7 +41,7 @@ namespace RonaldsYRonalds.Controllers
             ModelState.Remove("UserName");
             ModelState.Remove("Status");
 
-            ticketmodel.UserName = User.Identity!.Name;
+            ticketmodel.UserName = User.Identity!.Name!; // we know this endpoint is locked behind [Authorize].
             ticketmodel.Status = TicketStatus.Submitted;
 
             if (ModelState.IsValid)
