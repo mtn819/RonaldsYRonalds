@@ -48,7 +48,7 @@ public class TicketsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,UserId,UserName,Status,Vin,IncidentDescription")] TicketModel ticketmodel)
+    public async Task<IActionResult> Create([Bind("Id,UserName,Status,Vin,IncidentDescription")] TicketModel ticketmodel)
     {
         if (ModelState.IsValid)
         {
@@ -80,7 +80,7 @@ public class TicketsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,UserId,UserName,Status,Vin,IncidentDescription")] TicketModel ticketmodel)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,UserName,Status,Vin,IncidentDescription")] TicketModel ticketmodel)
     {
         if (id != ticketmodel.Id)
         {
