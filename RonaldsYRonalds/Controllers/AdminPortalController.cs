@@ -11,7 +11,7 @@ namespace RonaldsYRonalds.Controllers
     {
         private readonly ApplicationDbContext _context = context;
 
-        // GET: TICKETS
+        // GET: AdminPortal
         public async Task<IActionResult> Index(String searchVin)
         {
             var query = from ticket in _context.Tickets
@@ -28,7 +28,7 @@ namespace RonaldsYRonalds.Controllers
             return View(await query.ToListAsync());
         }
 
-        // GET: TICKETS/Process/5
+        // GET: AdminPortal/Process/5
         public async Task<IActionResult> Process(int? id)
         {
             if (id == null)
@@ -45,6 +45,7 @@ namespace RonaldsYRonalds.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Fulfill(int id)
         {
             var ticket = await _context.Tickets.FindAsync(id);
@@ -60,6 +61,7 @@ namespace RonaldsYRonalds.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)
         {
             var ticket = await _context.Tickets.FindAsync(id);

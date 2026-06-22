@@ -12,7 +12,7 @@ namespace RonaldsYRonalds.Controllers
     {
         private readonly ApplicationDbContext _context = context;
 
-        // GET: TICKETS
+        // GET: CustomerPortal
         public async Task<IActionResult> Index()
         {
             var userName = User.Identity?.Name;
@@ -25,13 +25,13 @@ namespace RonaldsYRonalds.Controllers
             return View(await userTickets.ToListAsync());
         }
 
-        // GET: TICKETS/Create
+        // GET: CustomerPortal/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TICKETS/Create
+        // POST: CustomerPortal/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
