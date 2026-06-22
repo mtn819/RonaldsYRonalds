@@ -12,6 +12,7 @@ using RonaldsYRonalds.Data;
 
 namespace RonaldsYRonalds.Areas.Identity.Pages.Account;
 
+[AllowAnonymous]
 public class LogoutModel : PageModel
 {
     private readonly SignInManager<IdentityUser> _signInManager;

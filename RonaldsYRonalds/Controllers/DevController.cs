@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RonaldsYRonalds.Controllers
 {
+    // [AllowAnonymous] // for bootstrapping the admin role on deployment.
     public class DevController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) : Controller
     {
         private readonly UserManager<IdentityUser> _userManager = userManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
-        // [Authorize(Roles = "Admin")] // note: this func is for bootstrapping admin role; would be protected or removed in prod, but im keeping this app simple
         [HttpGet]
         public async Task<IActionResult> MakeAdmin(string username)
         {
