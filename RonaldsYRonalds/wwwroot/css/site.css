@@ -7,6 +7,11 @@
 {
     max-width: 50ch;
 }
+
+.img-darken
+{
+    filter: brightness(50%);
+}
 /** ^ my own utility classes */
 
 html {
