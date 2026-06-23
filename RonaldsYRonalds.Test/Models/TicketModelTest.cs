@@ -9,7 +9,7 @@ namespace RonaldsYRonalds.Test.Models
     public class TicketModelTest
     {
         [Fact]
-        public void DefaultTicket()
+        public void Default_Ticket()
         {
             var before = DateTime.UtcNow;
             var ticket = new TicketModel();
@@ -20,7 +20,7 @@ namespace RonaldsYRonalds.Test.Models
         }
 
         [Fact]
-        public void SetTicket()
+        public void Set_Ticket()
         {
             var ticket = new TicketModel
             {
