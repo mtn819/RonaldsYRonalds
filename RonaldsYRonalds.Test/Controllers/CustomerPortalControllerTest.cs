@@ -69,5 +69,15 @@ namespace RonaldsYRonalds.Test.Controllers
             Assert.DoesNotContain(tickets, t => "NoReturn2" == t.UserName);
             Assert.All(tickets, t => Assert.Equal("Return", t.UserName));
         }
+
+        [Fact]
+        public void Create_View()
+        {
+            using var context = ApplicationDbContextInMemory.Create();
+
+            var controller = new CustomerPortalController(context);
+            var result = controller.Create();
+            Assert.IsType<ViewResult>(result);
+        }
     }
 }
