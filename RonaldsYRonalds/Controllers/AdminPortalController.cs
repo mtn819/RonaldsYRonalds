@@ -44,6 +44,7 @@ namespace RonaldsYRonalds.Controllers
             return View(ticketmodel);
         }
 
+        // POST: AdminPortal/Fulfill/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Fulfill(int id)
@@ -60,6 +61,7 @@ namespace RonaldsYRonalds.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //  POST: AdminPortal/Reject/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)

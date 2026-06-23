@@ -9,76 +9,130 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace RonaldsYRonalds.Test.Controllers
+namespace RonaldsYRonalds.Test.Controllers;
+public class AdminPortalControllerTest
 {
-    public class AdminPortalControllerTest
+    [Fact]
+    public void AdminPortalController_Authorized()
     {
-        [Fact]
-        public void AdminPortalController_Authorized()
+        var attribute = typeof(AdminPortalController)
+            .GetCustomAttributes(typeof(AuthorizeAttribute), true)
+            .Cast<AuthorizeAttribute>()
+            .FirstOrDefault();
+
+        Assert.NotNull(attribute);
+        Assert.Equal("Admin", attribute.Roles);
+    }
+
+    [Fact]
+    public async Task Index_Unfiltered()
+    {
+        using var context = ApplicationDbContextInMemory.Create();
+
+        context.Tickets.Add(new TicketModel {
+            Vin = "VIN1",
+            IncidentDescription = "Claim",
+            UserName = "name@example.com"
+        });
+        context.Tickets.Add(new TicketModel {
+            Vin = "VIN2",
+            IncidentDescription = "Claim",
+            UserName = "name@example.com"
+        });
+
+        context.SaveChanges();
+
+        var controller = new AdminPortalController(context);
+        var result = await controller.Index(null!);
+
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<List<TicketModel>>(viewResult.Model);
+
+        Assert.Equal(2, model.Count);
+    }
+
+    [Fact]
+    public async Task Index_Filtered()
+    {
+        using var context = ApplicationDbContextInMemory.Create();
+
+        context.Tickets.Add(new TicketModel
         {
-            var attribute = typeof(AdminPortalController)
-                .GetCustomAttributes(typeof(AuthorizeAttribute), true)
-                .Cast<AuthorizeAttribute>()
-                .FirstOrDefault();
-
-            Assert.NotNull(attribute);
-            Assert.Equal("Admin", attribute.Roles);
-        }
-
-        [Fact]
-        public async Task Index_Unfiltered()
+            Vin = "VIN1",
+            IncidentDescription = "Claim",
+            UserName = "name@example.com"
+        });
+        context.Tickets.Add(new TicketModel
         {
-            using var context = ApplicationDbContextInMemory.Create();
+            Vin = "VIN2",
+            IncidentDescription = "Claim",
+            UserName = "name@example.com"
+        });
 
-            context.Tickets.Add(new TicketModel {
-                Vin = "VIN1",
-                IncidentDescription = "Claim",
-                UserName = "name@example.com"
-            });
-            context.Tickets.Add(new TicketModel {
-                Vin = "VIN2",
-                IncidentDescription = "Claim",
-                UserName = "name@example.com"
-            });
+        context.SaveChanges();
 
-            context.SaveChanges();
+        var controller = new AdminPortalController(context);
+        var result = await controller.Index("VIN1");
 
-            var controller = new AdminPortalController(context);
-            var result = await controller.Index(null!);
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<List<TicketModel>>(viewResult.Model);
 
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<List<TicketModel>>(viewResult.Model);
+        Assert.Single(model);
+    }
 
-            Assert.Equal(2, model.Count);
-        }
+    [Fact]
+    public async Task Reject_Ticket()
+    {
+        using var context = ApplicationDbContextInMemory.Create();
 
-        [Fact]
-        public async Task Index_Filtered()
+        var ticket = new TicketModel
         {
-            using var context = ApplicationDbContextInMemory.Create();
+            Vin = "VIN1",
+            IncidentDescription = "Claim",
+            UserName = "name@example.com"
+        };
 
-            context.Tickets.Add(new TicketModel
-            {
-                Vin = "VIN1",
-                IncidentDescription = "Claim",
-                UserName = "name@example.com"
-            });
-            context.Tickets.Add(new TicketModel
-            {
-                Vin = "VIN2",
-                IncidentDescription = "Claim",
-                UserName = "name@example.com"
-            });
+        context.Tickets.Add(ticket);
 
-            context.SaveChanges();
+        context.SaveChanges();
 
-            var controller = new AdminPortalController(context);
-            var result = await controller.Index("VIN1");
+        var controller = new AdminPortalController(context);
+        var result = await controller.Reject(ticket.Id);
 
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<List<TicketModel>>(viewResult.Model);
+        Assert.Equal(TicketStatus.Rejected, ticket.Status);
 
-            Assert.Single(model);
-        }
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
+
+        var updatedTicket = context.Tickets.Single();
+        Assert.Equal(TicketStatus.Rejected, updatedTicket.Status); // test db as well
+    }
+
+    [Fact]
+    public async Task Fulfill_Ticket()
+    {
+        using var context = ApplicationDbContextInMemory.Create();
+
+        var ticket = new TicketModel
+        {
+            Vin = "VIN1",
+            IncidentDescription = "Claim",
+            UserName = "name@example.com"
+        };
+
+        context.Tickets.Add(ticket);
+
+        context.SaveChanges();
+
+        var controller = new AdminPortalController(context);
+        var result = await controller.Fulfill(ticket.Id);
+
+        Assert.Equal(TicketStatus.Fulfilled, ticket.Status);
+
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
+
+        var updatedTicket = context.Tickets.Single();
+        Assert.Equal(TicketStatus.Fulfilled, updatedTicket.Status); // test db as well
     }
 }
